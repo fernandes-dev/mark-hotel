@@ -32,6 +32,10 @@ export abstract class BaseController {
     return response.status(201).send()
   }
 
+  public unauthorized(response: Response): Response {
+    return response.status(401).send()
+  }
+
   public fail(response: Response, error: Error | string): Response {
     return response
       .status(500)

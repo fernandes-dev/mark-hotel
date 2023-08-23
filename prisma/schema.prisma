@@ -12,8 +12,54 @@ datasource db {
 }
 
 model users {
-  id       Int    @id @unique @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
+  id         Int      @id @unique @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model hotels {
+  id              Int             @id @unique @default(autoincrement())
+  name            String
+  rooms_available Int
+  rooms_booked    Int
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @default(now())
+  hotel_address   hotel_address[]
+  hotel_rooms     hotel_rooms[]
+}
+
+model hotel_address {
+  id         Int      @id @unique @default(autoincrement())
+  street     String
+  zipcode    String
+  country    String
+  hotel_id   Int
+  hotel      hotels   @relation(fields: [hotel_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model hotel_rooms {
+  id         Int        @id @unique @default(autoincrement())
+  number     Int
+  price      Decimal
+  status     String     @default("AVAILABLE")
+  hotel_id   Int
+  hotel      hotels     @relation(fields: [hotel_id], references: [id])
+  created_at DateTime   @default(now())
+  updated_at DateTime   @default(now())
+  bookings   bookings[]
+}
+
+model bookings {
+  id            Int         @id @unique @default(autoincrement())
+  hotel_room_id Int
+  hotel_room    hotel_rooms @relation(fields: [hotel_room_id], references: [id])
+  start_date    DateTime
+  end_date      DateTime
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @default(now())
 }
