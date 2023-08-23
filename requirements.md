@@ -1,0 +1,11 @@
+# Stack
+  1. nodejs
+  2. prismaORM
+  3. typescript
+  4. tsup
+  5. tsx
+  6. vitest
+  7. docker
+  8. docker-compose
+  9. rabbitmq
+  10. mysql

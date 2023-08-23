@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_management
+    ports: 
+    - 25672:25672 # (erlang) communication between the nodes and CLI tool
+    - 15672:15672 # communication with the web management API 
+    volumes:
+    # data persistence
+    - '~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/mnesia/'
+    # data mapping -> host: container
+    # queues and messages data of the container will be stored on the host
+    environment:
+    - RABBITMQ_DEFAULT_USER = admin
+    - RABBITMQ_DEFAULT_PASS = passw123
+
+    restart: always
+  mysqldb:
+    image: mysql:8.0
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    depends_on:
+      - mysqldb
+      - rabbitmq
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/mark-hotel/src
+    container_name: mark-hotel-api
+    restart: always
+    env_file: ./.env
+    expose:
+      - $NODE_DOCKER_PORT
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=mysqldb
+      - DB_USER=$MYSQLDB_USER
+      - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - DB_NAME=$MYSQLDB_DATABASE
+      - DB_PORT=$MYSQLDB_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    command: npm run dev
+
+volumes: 
+  logs-folder:
+      name: mark_hotel_log_rabbitmq_management
+      driver: local
+  db:
