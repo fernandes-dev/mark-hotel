@@ -73,7 +73,7 @@ describe('book hotel room use case', () => {
     const roomNumber = randomAvailableRoom()
 
     await bookHotelRoomUseCase.execute({
-      client_email: 'eduardo.yugan@gmail.com',
+      client_email: `eduardo.yugan${randomUUID()}@gmail.com`,
       start_date: currentDate.toISOString(),
       end_date: tomorrow.toISOString(),
       hotel_id: hotel.id,

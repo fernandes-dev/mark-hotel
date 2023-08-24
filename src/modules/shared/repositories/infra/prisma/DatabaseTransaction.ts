@@ -9,6 +9,8 @@ export class DatabaseTransaction implements IDatabaseTransaction {
   }
 
   async transaction(queries: unknown[]): Promise<void> {
-    await this.repository.$transaction(queries.filter(Boolean) as never)
+    await this.repository.$transaction(async () => {
+      await Promise.all(queries)
+    })
   }
 }

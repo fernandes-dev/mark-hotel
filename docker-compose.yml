@@ -6,18 +6,24 @@ services:
     container_name: rabbitmq_management
     ports: 
     - 25672:25672 # (erlang) communication between the nodes and CLI tool
-    - 15672:15672 # communication with the web management API 
+    - 15672:15672 # communication with the web management API
+    - 5672:5672
+    expose:
+      - 5672
+      - 15672
+      - 25672
     volumes:
     # data persistence
     - '~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/mnesia/'
     # data mapping -> host: container
     # queues and messages data of the container will be stored on the host
     environment:
-    - RABBITMQ_DEFAULT_USER = admin
-    - RABBITMQ_DEFAULT_PASS = passw123
+    - RABBITMQ_DEFAULT_USER=admin
+    - RABBITMQ_DEFAULT_PASS=passw123
 
     restart: always
   mysqldb:
+    container_name: mark_hotel_database
     image: mysql:8.0
     restart: unless-stopped
     env_file: ./.env
@@ -60,3 +66,7 @@ volumes:
       name: mark_hotel_log_rabbitmq_management
       driver: local
   db:
+
+# networks:
+#   default:
+#     driver: bridge

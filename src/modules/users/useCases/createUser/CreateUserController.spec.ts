@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import supertest from 'supertest'
 
 import { database } from '../../../../shared/infra/database/prisma/database'
@@ -7,7 +8,7 @@ describe('create user controller', () => {
   it(' should be able to create user', async () => {
     const user = {
       name: 'Eduardo Fernandes',
-      email: 'eduardo.yugan@gmail.com',
+      email: `eduardo.yugan${randomUUID()}@gmail.com`,
       password: '1234',
     }
 

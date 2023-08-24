@@ -4,7 +4,7 @@ import { IHotelsRepository } from '../../../hotels/repositories/IHotelsRepositor
 import { IDatabaseTransaction } from '../../../shared/repositories/IDatabaseTransaction'
 import { IBookingsRepository } from '../../repositories/IBookingsRepository'
 
-interface IRequest {
+export interface IBookHotelRoomData {
   client_email: string
   hotel_id: number
   room_number: number
@@ -26,13 +26,21 @@ export class BookHotelRoomUseCase {
     room_number,
     start_date,
     end_date,
-  }: IRequest) {
+  }: IBookHotelRoomData) {
+    const data = { client_email, hotel_id, room_number, start_date, end_date }
+
+    Object.values(data).forEach((value) => {
+      if (value === undefined) throw new AppError('invalid request', 400)
+    })
+
+    const parsedHotelId = Number(hotel_id)
+
     const foundRoom = await this.hotelRoomsRepository.findByHotelIdAndNumber(
-      hotel_id,
+      parsedHotelId,
       room_number
     )
 
-    if (foundRoom.status === 'UNAVAILABLE')
+    if (!foundRoom || foundRoom.status === 'UNAVAILABLE')
       throw new AppError('room is unavailable', 401)
 
     const parsedStartDate = new Date(start_date)
@@ -46,33 +54,36 @@ export class BookHotelRoomUseCase {
 
     if (!roomIsAvailable) throw new AppError('room is unavailable', 401)
 
-    const foundHotel = await this.hotelsRepository.findById(hotel_id)
+    const foundHotel = await this.hotelsRepository.findById(parsedHotelId)
 
     if (!foundHotel) throw new AppError('hotel not found', 404)
 
     const bookDateIsNow =
       new Date().toDateString() === parsedStartDate.toDateString()
 
-    await this.databaseTransaction.transaction([
+    const transactions: Promise<unknown>[] = [
       this.bookingsRepository.create({
         client_email,
         hotel_room_id: foundRoom.id,
         start_date: parsedStartDate,
         end_date: parsedEndDate,
       }),
-      bookDateIsNow
-        ? this.hotelsRepository.updateById({
-            id: hotel_id,
-            rooms_available: foundHotel.rooms_available - 1,
-            rooms_booked: foundHotel.rooms_booked + 1,
-          })
-        : null,
-      bookDateIsNow
-        ? this.hotelRoomsRepository.updateById({
-            id: foundRoom.id,
-            status: 'UNAVAILABLE',
-          })
-        : null,
-    ])
+    ]
+
+    if (bookDateIsNow) {
+      transactions.push(
+        this.hotelsRepository.updateById({
+          id: parsedHotelId,
+          rooms_available: foundHotel.rooms_available - 1,
+          rooms_booked: foundHotel.rooms_booked + 1,
+        }),
+        this.hotelRoomsRepository.updateById({
+          id: foundRoom.id,
+          status: 'UNAVAILABLE',
+        })
+      )
+    }
+
+    await this.databaseTransaction.transaction(transactions)
   }
 }

@@ -27,11 +27,11 @@ export class BookingsRepository implements IBookingsRepository {
   }
 
   async checkRoomIsAvailable({
-    end_date,
     id,
     start_date,
+    end_date,
   }: ICheckRoomIsAvailableDTO): Promise<boolean> {
-    const foundBook = this.repository.findFirst({
+    const foundBook = await this.repository.findFirst({
       where: {
         OR: [
           {
@@ -47,7 +47,7 @@ export class BookingsRepository implements IBookingsRepository {
             },
           },
         ],
-        id,
+        hotel_room_id: id,
       },
     })
 

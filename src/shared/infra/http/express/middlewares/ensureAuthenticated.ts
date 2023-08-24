@@ -32,8 +32,6 @@ export async function ensureAuthenticated(
 
     next()
   } catch (error) {
-    console.log(error)
-
     return response.status(401).json({ message: 'invalid token' })
   }
 }
