@@ -12,19 +12,13 @@ export class AuthenticateUserController extends BaseController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    try {
-      const { email, password } = request.body
+    const { email, password } = request.body
 
-      const { token } = await this.authenticateUserUseCase.execute(
-        email,
-        password
-      )
+    const { token } = await this.authenticateUserUseCase.execute(
+      email,
+      password
+    )
 
-      if (!token) return this.unauthorized(response)
-
-      return this.ok(response, { token })
-    } catch (error) {
-      this.fail(response, error)
-    }
+    return this.ok(response, { token })
   }
 }

@@ -1,3 +1,4 @@
+import { AppError } from '../../../../shared/errors/AppError'
 import { AuthToken } from '../../../../shared/services/authToken/implementations/AuthToken'
 import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { UsersRepositoryInMemory } from '../../repositories/in-memory/UsersRepositoryInMemory'
@@ -42,11 +43,8 @@ describe('authenticate user use case', () => {
   })
 
   it(' should not be able to authenticate invalid user', async () => {
-    const token = await authenticateUserUseCase.execute(
-      'invalid email',
-      'invalid password'
-    )
-
-    expect(token).toBeNull()
+    await expect(async () => {
+      await authenticateUserUseCase.execute('invalid email', 'invalid password')
+    }).rejects.toBeInstanceOf(AppError)
   })
 })
