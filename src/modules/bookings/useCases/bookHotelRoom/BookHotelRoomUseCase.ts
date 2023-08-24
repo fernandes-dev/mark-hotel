@@ -40,19 +40,20 @@ export class BookHotelRoomUseCase {
       room_number
     )
 
-    if (!foundRoom || foundRoom.status === 'UNAVAILABLE')
-      throw new AppError('room is unavailable', 401)
-
     const parsedStartDate = new Date(start_date)
     const parsedEndDate = new Date(end_date)
 
-    const roomIsAvailable = await this.bookingsRepository.checkRoomIsAvailable({
-      id: foundRoom.id,
-      start_date: parsedStartDate,
-      end_date: parsedEndDate,
-    })
+    const roomDateIsAvailable =
+      await this.bookingsRepository.checkRoomIsAvailable({
+        id: foundRoom.id,
+        start_date: parsedStartDate,
+        end_date: parsedEndDate,
+      })
 
-    if (!roomIsAvailable) throw new AppError('room is unavailable', 401)
+    if (!roomDateIsAvailable) throw new AppError('room is unavailable', 401)
+
+    if (!foundRoom || foundRoom.status === 'UNAVAILABLE')
+      throw new AppError('room is unavailable', 401)
 
     const foundHotel = await this.hotelsRepository.findById(parsedHotelId)
 
