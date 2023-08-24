@@ -9,6 +9,9 @@
     "docker-compose-up:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "docker-compose-up:dev": "docker-compose up -d"
   },
+  "prisma": {
+    "seed": "tsx ./src/shared/infra/database/prisma/seeds/index.ts"
+  },
   "devDependencies": {
     "@types/amqplib": "^0.10.1",
     "@types/bcrypt": "^5.0.0",
