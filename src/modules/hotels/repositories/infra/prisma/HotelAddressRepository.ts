@@ -1,4 +1,4 @@
-import { database } from '../../../../shared/infra/database/prisma/database'
+import { database } from '../../../../../shared/infra/database/prisma/database'
 import { ICreateHotelsAddressDTO } from '../../../dtos/ICreateHotelAddressDTO'
 import { IUpdateHotelAddressDTO } from '../../../dtos/IUpdateHotelAddressDTO'
 import { HotelAddress } from '../../../entities/HotelAdress'

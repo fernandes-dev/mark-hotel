@@ -1,4 +1,4 @@
-import { AppError } from '../../../shared/errors/AppError'
+import { AppError } from '../../../../shared/errors/AppError'
 import { Hotel } from '../../entities/Hotel'
 import { HotelAddress } from '../../entities/HotelAdress'
 import { IHotelAddressRepository } from '../../repositories/IHotelAddressRepository'

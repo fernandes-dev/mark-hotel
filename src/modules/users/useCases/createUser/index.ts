@@ -1,4 +1,4 @@
-import { HashService } from '../../../shared/services/hash/implementations/HashService'
+import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { UsersRepository } from '../../repositories/infra/prisma/UsersRepository'
 import { CreateUserController } from './CreateUserController'
 import { CreateUserUseCase } from './CreateUserUseCase'

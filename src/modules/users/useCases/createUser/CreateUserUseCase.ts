@@ -1,4 +1,4 @@
-import { IHashService } from '../../../shared/services/hash/IHashService'
+import { IHashService } from '../../../../shared/services/hash/IHashService'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 
 interface IRequest {

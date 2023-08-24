@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { BaseController } from '../../../shared/infra/http/models/BaseController'
+import { BaseController } from '../../../../shared/infra/http/models/BaseController'
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase'
 
 export class AuthenticateUserController extends BaseController {

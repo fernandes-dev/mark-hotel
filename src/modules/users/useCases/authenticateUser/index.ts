@@ -1,5 +1,5 @@
-import { AuthToken } from '../../../shared/services/authToken/implementations/AuthToken'
-import { HashService } from '../../../shared/services/hash/implementations/HashService'
+import { AuthToken } from '../../../../shared/services/authToken/implementations/AuthToken'
+import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { UsersRepository } from '../../repositories/infra/prisma/UsersRepository'
 import { AuthenticateUserController } from './AuthenticateUserController'
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase'

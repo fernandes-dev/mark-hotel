@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { BaseController } from '../../../shared/infra/http/models/BaseController'
+import { BaseController } from '../../../../shared/infra/http/models/BaseController'
 import { CreateUserUseCase } from './CreateUserUseCase'
 
 export class CreateUserController extends BaseController {

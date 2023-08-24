@@ -28,7 +28,9 @@ export abstract class BaseController {
     return response.status(200).send()
   }
 
-  public created(response: Response): Response {
+  public created<T>(response: Response, dto?: T): Response {
+    if (dto) return response.status(201).json(dto)
+
     return response.status(201).send()
   }
 

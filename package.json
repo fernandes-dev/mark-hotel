@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "build": "tsup ./src/modules/shared/infra/http/express/server.ts",
-    "dev": "tsx ./src/modules/shared/infra/http/express/server.ts",
+    "build": "tsup ./src/shared/infra/http/express/server.ts",
+    "dev": "tsx --watch ./src/shared/infra/http/express/server.ts",
     "test": "vitest UseCase",
     "test:integration": "vitest Controller",
     "test:all": "vitest",

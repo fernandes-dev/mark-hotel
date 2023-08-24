@@ -1,7 +1,7 @@
 import express from 'express'
 
-import { authenticateUserController } from '../../../../../users/useCases/authenticateUser'
-import { createUserController } from '../../../../../users/useCases/createUser'
+import { authenticateUserController } from '../../../../../modules/users/useCases/authenticateUser'
+import { createUserController } from '../../../../../modules/users/useCases/createUser'
 
 const usersRoutes = express()
 

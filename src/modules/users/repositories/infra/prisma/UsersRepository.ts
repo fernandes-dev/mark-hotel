@@ -1,4 +1,4 @@
-import { database } from '../../../../shared/infra/database/prisma/database'
+import { database } from '../../../../../shared/infra/database/prisma/database'
 import { ICreateUserDTO } from '../../../dtos/ICreateUserDTO'
 import { User } from '../../../entities/User'
 import { IUsersRepository } from '../../IUsersRepository'

@@ -1,5 +1,5 @@
-import { AuthToken } from '../../../shared/services/authToken/implementations/AuthToken'
-import { HashService } from '../../../shared/services/hash/implementations/HashService'
+import { AuthToken } from '../../../../shared/services/authToken/implementations/AuthToken'
+import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { UsersRepositoryInMemory } from '../../repositories/in-memory/UsersRepositoryInMemory'
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase'
 

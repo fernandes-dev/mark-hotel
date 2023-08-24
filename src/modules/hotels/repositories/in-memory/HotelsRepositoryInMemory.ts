@@ -1,14 +1,14 @@
+import { BaseRepositoryInMemory } from '../../../shared/repositories/in-memory/BaseRepositoryInMemory'
 import { ICreateHotelDTO } from '../../dtos/ICreateHotelDTO'
 import { IUpdateHotelDTO } from '../../dtos/IUpdateHotelDTO'
 import { Hotel } from '../../entities/Hotel'
 import { IHotelsRepository } from '../IHotelsRepository'
 
-export class HotelsRepositoryInMemory implements IHotelsRepository {
+export class HotelsRepositoryInMemory
+  extends BaseRepositoryInMemory
+  implements IHotelsRepository
+{
   private hotels: Hotel[] = []
-
-  private incrementalID() {
-    return (this.hotels[this.hotels.length - 1]?.id ?? 0) + 1
-  }
 
   async create({
     name,
@@ -17,7 +17,7 @@ export class HotelsRepositoryInMemory implements IHotelsRepository {
   }: ICreateHotelDTO): Promise<Hotel> {
     const data = {
       created_at: new Date(),
-      id: this.incrementalID(),
+      id: this.incrementalID('hotels'),
       name,
       rooms_available,
       rooms_booked,
@@ -39,15 +39,10 @@ export class HotelsRepositoryInMemory implements IHotelsRepository {
     rooms_available,
     rooms_booked,
   }: IUpdateHotelDTO): Promise<Hotel> {
-    const data = {
+    const data = this.removeUndefinedFromDTO({
       name,
       rooms_available,
       rooms_booked,
-    }
-
-    // remove undefined values
-    Object.entries(data).forEach(([key, value]) => {
-      if (value === undefined) Reflect.deleteProperty(data, key)
     })
 
     const foundIndex = this.hotels.findIndex((h) => h.id === id)
@@ -59,6 +54,6 @@ export class HotelsRepositoryInMemory implements IHotelsRepository {
 
     this.hotels[foundIndex] = updatedHotel
 
-    return updatedHotel
+    return { ...updatedHotel }
   }
 }

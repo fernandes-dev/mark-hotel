@@ -1,7 +1,7 @@
 import supertest from 'supertest'
 
-import { database } from '../../../shared/infra/database/prisma/database'
-import { app } from '../../../shared/infra/http/express/app'
+import { database } from '../../../../shared/infra/database/prisma/database'
+import { app } from '../../../../shared/infra/http/express/app'
 
 describe('create user controller', () => {
   beforeAll(async () => {

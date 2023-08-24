@@ -1,5 +1,5 @@
-import { IAuthToken } from '../../../shared/services/authToken/IAuthToken'
-import { IHashService } from '../../../shared/services/hash/IHashService'
+import { IAuthToken } from '../../../../shared/services/authToken/IAuthToken'
+import { IHashService } from '../../../../shared/services/hash/IHashService'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 
 export class AuthenticateUserUseCase {

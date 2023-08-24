@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { UsersRepository } from '../../../../../users/repositories/infra/prisma/UsersRepository'
+import { UsersRepository } from '../../../../../modules/users/repositories/infra/prisma/UsersRepository'
 import { AuthToken } from '../../../../services/authToken/implementations/AuthToken'
 
 const authTokenService = new AuthToken()

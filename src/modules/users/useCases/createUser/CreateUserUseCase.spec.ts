@@ -1,4 +1,4 @@
-import { HashService } from '../../../shared/services/hash/implementations/HashService'
+import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { UsersRepositoryInMemory } from '../../repositories/in-memory/UsersRepositoryInMemory'
 import { CreateUserUseCase } from './CreateUserUseCase'
 

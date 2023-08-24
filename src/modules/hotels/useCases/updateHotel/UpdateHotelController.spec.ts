@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto'
 import supertest from 'supertest'
 
-import { database } from '../../../shared/infra/database/prisma/database'
-import { app } from '../../../shared/infra/http/express/app'
-import { HashService } from '../../../shared/services/hash/implementations/HashService'
+import { database } from '../../../../shared/infra/database/prisma/database'
+import { app } from '../../../../shared/infra/http/express/app'
+import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { Hotel } from '../../entities/Hotel'
 import { HotelAddress } from '../../entities/HotelAdress'
 
