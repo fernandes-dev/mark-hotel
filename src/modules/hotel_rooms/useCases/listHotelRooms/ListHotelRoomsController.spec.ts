@@ -2,7 +2,6 @@ import { randomUUID } from 'crypto'
 import supertest from 'supertest'
 
 import { database } from '../../../../shared/infra/database/prisma/database'
-import { clearDatabase } from '../../../../shared/infra/database/prisma/tests/clearDatabase'
 import { app } from '../../../../shared/infra/http/express/app'
 import { Hotel } from '../../../hotels/entities/Hotel'
 
@@ -11,8 +10,6 @@ describe('list hotel rooms controller', () => {
   const HOTEL_ROOMS_COUNT = 10
 
   beforeAll(async () => {
-    await clearDatabase()
-
     hotel = await database.hotels.create({
       data: {
         name: `mark_hotel_${randomUUID()}`,

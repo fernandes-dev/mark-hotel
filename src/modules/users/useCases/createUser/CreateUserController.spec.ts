@@ -1,14 +1,9 @@
 import supertest from 'supertest'
 
 import { database } from '../../../../shared/infra/database/prisma/database'
-import { clearDatabase } from '../../../../shared/infra/database/prisma/tests/clearDatabase'
 import { app } from '../../../../shared/infra/http/express/app'
 
 describe('create user controller', () => {
-  beforeAll(async () => {
-    await clearDatabase()
-  })
-
   it(' should be able to create user', async () => {
     const user = {
       name: 'Eduardo Fernandes',

@@ -58,6 +58,7 @@ model bookings {
   id            Int         @id @unique @default(autoincrement())
   hotel_room_id Int
   hotel_room    hotel_rooms @relation(fields: [hotel_room_id], references: [id])
+  client_email  String
   start_date    DateTime
   end_date      DateTime
   created_at    DateTime    @default(now())
