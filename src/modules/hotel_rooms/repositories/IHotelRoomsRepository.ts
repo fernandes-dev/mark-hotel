@@ -14,4 +14,5 @@ export interface IHotelRoomsRepository {
     hotel_id: number,
     status: 'AVAILABLE' | 'UNAVAILABLE'
   ): Promise<number>
+  list(hotel_id: number): Promise<HotelRoom[]>
 }

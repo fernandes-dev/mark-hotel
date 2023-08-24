@@ -58,4 +58,10 @@ export class HotelRoomsRepository implements IHotelRoomsRepository {
       },
     })
   }
+
+  async list(hotel_id: number): Promise<HotelRoom[]> {
+    return this.repository.findMany({
+      where: { hotel_id },
+    })
+  }
 }

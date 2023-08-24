@@ -80,4 +80,8 @@ export class HotelRoomsRepositoryInMemory
       )?.length ?? 0
     )
   }
+
+  async list(hotel_id: number): Promise<HotelRoom[]> {
+    return this.hotel_rooms.filter((h) => h.hotel_id === hotel_id)
+  }
 }

@@ -1,11 +1,11 @@
-import express from 'express'
+import { Router } from 'express'
 
 import { createHotelRoomController } from '../../../../../modules/hotel_rooms/useCases/createHotelRoom'
 import { createHotelController } from '../../../../../modules/hotels/useCases/createHotel'
 import { updateHotelController } from '../../../../../modules/hotels/useCases/updateHotel'
 import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
 
-const hotelRoutes = express()
+const hotelRoutes = Router()
 
 hotelRoutes.post('/', ensureAuthenticated, (req, res) =>
   createHotelController.executeImplementation(req, res)

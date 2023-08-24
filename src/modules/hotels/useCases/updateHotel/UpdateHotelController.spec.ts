@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto'
 import supertest from 'supertest'
 
 import { database } from '../../../../shared/infra/database/prisma/database'
+import { clearDatabase } from '../../../../shared/infra/database/prisma/tests/clearDatabase'
 import { app } from '../../../../shared/infra/http/express/app'
 import { HashService } from '../../../../shared/services/hash/implementations/HashService'
 import { Hotel } from '../../entities/Hotel'
@@ -20,15 +21,7 @@ describe('update hotel controller', () => {
   let hotelAddress: HotelAddress
 
   beforeAll(async () => {
-    await database.$transaction([
-      database.hotel_address.deleteMany(),
-      database.hotel_rooms.deleteMany(),
-      database.bookings.deleteMany(),
-    ])
-    await database.$transaction([
-      database.users.deleteMany(),
-      database.hotels.deleteMany(),
-    ])
+    await clearDatabase()
 
     const hashedPassword = await hashService.hash(user.password)
 
