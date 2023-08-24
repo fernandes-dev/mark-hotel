@@ -97,6 +97,38 @@ describe('create hotel room', () => {
     )
   })
 
+  it(' should not be able to update rooms available count when is unnecessary', async () => {
+    const HOTEL_ROOMS_AVAILABLE_COUNT = 20
+
+    await hotelsRepositoryInMemory.updateById({
+      id: hotel.id,
+      rooms_available: HOTEL_ROOMS_AVAILABLE_COUNT,
+    })
+
+    const NEW_ROOMS_AVAILABLE_COUNT = 5
+    for (let index = 0; index < NEW_ROOMS_AVAILABLE_COUNT; index++) {
+      await createHotelRoomUseCase.execute({
+        hotel_id: hotel.id,
+        number: hotel.rooms_available * 2 + index,
+        price: 50,
+        status: 'AVAILABLE',
+      })
+    }
+
+    const foundHotel = await hotelsRepositoryInMemory.findById(hotel.id)
+
+    const roomsAvailableCount =
+      await hotelRoomsRepositoryInMemory.countByHotelIdAndStatus(
+        hotel.id,
+        'AVAILABLE'
+      )
+
+    expect(roomsAvailableCount).toBe(
+      hotel.rooms_available + NEW_ROOMS_AVAILABLE_COUNT
+    )
+    expect(foundHotel.rooms_available).toBe(HOTEL_ROOMS_AVAILABLE_COUNT)
+  })
+
   it(' should not be able to create a hotel room with invalid status', async () => {
     await expect(async () => {
       await createHotelRoomUseCase.execute({

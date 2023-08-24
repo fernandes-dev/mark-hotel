@@ -1,5 +1,4 @@
 import { AppError } from '../../../../shared/errors/AppError'
-import { Hotel } from '../../../hotels/entities/Hotel'
 import { IHotelsRepository } from '../../../hotels/repositories/IHotelsRepository'
 import { HotelRoom } from '../../entities/HotelRoom'
 import { IHotelRoomsRepository } from '../../repositories/IHotelRoomsRepository'
@@ -50,18 +49,22 @@ export class CreateHotelRoomUseCase {
 
     const increaseRoomsCountByStatus: Record<
       IStatusOptions,
-      () => Promise<Hotel>
+      () => Promise<void>
     > = {
-      AVAILABLE: async () =>
-        this.hotelsRepository.updateById({
-          id: hotel_id,
-          rooms_available: availableRoomsCount,
-        }),
-      UNAVAILABLE: async () =>
-        this.hotelsRepository.updateById({
-          id: hotel_id,
-          rooms_booked: unavailableRoomsCount,
-        }),
+      AVAILABLE: async () => {
+        if (foundHotel.rooms_available < availableRoomsCount)
+          await this.hotelsRepository.updateById({
+            id: hotel_id,
+            rooms_available: availableRoomsCount,
+          })
+      },
+      UNAVAILABLE: async () => {
+        if (foundHotel.rooms_booked < unavailableRoomsCount)
+          await this.hotelsRepository.updateById({
+            id: hotel_id,
+            rooms_booked: unavailableRoomsCount,
+          })
+      },
     }
 
     await increaseRoomsCountByStatus[status]()
